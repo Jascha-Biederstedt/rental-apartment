@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { DayPicker } from 'react-day-picker';
 
 import { isDaySelectable } from 'lib/dates';
+import { getCost } from 'lib/cost';
 
 import 'react-day-picker/dist/style.css';
 
@@ -53,14 +54,21 @@ const Calendar = () => {
             <DayPicker
               components={{
                 DayContent: props => (
-                  <div className='relative text-right'>
-                    <div
-                      className={
-                        !isDaySelectable(props.date) && 'text-gray-500'
-                      }
-                    >
-                      {props.date.getDate()}
-                    </div>
+                  <div
+                    className={`relative text-right ${
+                      !isDaySelectable(props.date) && 'text-gray-500'
+                    }`}
+                  >
+                    <div>{props.date.getDate()}</div>
+                    {isDaySelectable(props.date) && (
+                      <div className='-mt-2'>
+                        <span
+                          className={`bg-white text-black rounded-md font-bold px-1 text-xs`}
+                        >
+                          ${getCost(props.date)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ),
               }}
