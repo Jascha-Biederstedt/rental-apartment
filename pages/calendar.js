@@ -129,6 +129,14 @@ const Calendar = () => {
             )}
           </p>
 
+          {numberOfNights > 0 && (
+            <Link href={'/success'}>
+              <button className='bg-green-500 text-white mt-5 mx-auto w-40 px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm  sm:px-8'>
+                Book now
+              </button>
+            </Link>
+          )}
+
           <div className='pt-6 flex justify-center availability-calendar'>
             <DayPicker
               disabled={[
