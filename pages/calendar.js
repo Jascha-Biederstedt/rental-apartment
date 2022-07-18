@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { DayPicker } from 'react-day-picker';
 
+import { isDaySelectable } from 'lib/dates';
+
 import 'react-day-picker/dist/style.css';
 
 const Calendar = () => {
@@ -48,7 +50,21 @@ const Calendar = () => {
           </p>
 
           <div className='pt-6 flex justify-center availability-calendar'>
-            <DayPicker defaultMonth={new Date(2023, 0)} />
+            <DayPicker
+              components={{
+                DayContent: props => (
+                  <div className='relative text-right'>
+                    <div
+                      className={
+                        !isDaySelectable(props.date) && 'text-gray-500'
+                      }
+                    >
+                      {props.date.getDate()}
+                    </div>
+                  </div>
+                ),
+              }}
+            />
           </div>
         </div>
       </div>
