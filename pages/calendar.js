@@ -7,7 +7,9 @@ import {
   isDaySelectable,
   addDayToRange,
   getDatesBetweenDates,
+  getBlockedDates,
 } from 'lib/dates';
+import { getBookedDates } from 'lib/bookings';
 import { getCost } from 'lib/cost';
 
 import 'react-day-picker/dist/style.css';
@@ -15,6 +17,12 @@ import 'react-day-picker/dist/style.css';
 const Calendar = () => {
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const twelveMonthsFromNow = new Date();
+  twelveMonthsFromNow.setDate(twelveMonthsFromNow.getDate() + 30 * 12);
 
   const handleDayClick = day => {
     const range = addDayToRange(day, {
@@ -94,6 +102,18 @@ const Calendar = () => {
 
           <div className='pt-6 flex justify-center availability-calendar'>
             <DayPicker
+              disabled={[
+                ...getBlockedDates(),
+                ...getBookedDates(),
+                {
+                  from: new Date('0000'),
+                  to: yesterday,
+                },
+                {
+                  from: twelveMonthsFromNow,
+                  to: new Date('4000'),
+                },
+              ]}
               selected={[from, { from, to }]}
               modifiers={{ start: from, end: to }}
               onDayClick={handleDayClick}
